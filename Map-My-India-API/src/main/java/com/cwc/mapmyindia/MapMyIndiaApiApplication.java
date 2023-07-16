@@ -11,10 +11,5 @@ public class MapMyIndiaApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MapMyIndiaApiApplication.class, args);
 	}
-	
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
 
 }
