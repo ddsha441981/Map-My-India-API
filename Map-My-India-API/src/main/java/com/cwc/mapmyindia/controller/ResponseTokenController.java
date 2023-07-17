@@ -3,14 +3,17 @@ package com.cwc.mapmyindia.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cwc.mapmyindia.model.AddressResponse;
+import com.cwc.mapmyindia.model.ApiResponse;
 import com.cwc.mapmyindia.model.ResponseToken;
 import com.cwc.mapmyindia.service.GenerateTokenService;
 
@@ -47,13 +50,40 @@ public class ResponseTokenController {
 	
 
 	@GetMapping("/address")
-	public ResponseEntity<List<AddressResponse>> getAddress(
+	public ResponseEntity<List<ApiResponse>> getAddress(
 			String region,
 			String address,
 			int itemCount,
 			String token) {
-		List<AddressResponse> add = this.generateTokenService.getAddressDetails(region, address, itemCount,token);
-		return new ResponseEntity<List<AddressResponse>>(add,HttpStatus.CREATED);
+		List<ApiResponse> add = this.generateTokenService.getAddressDetails(region, address, itemCount,token);
+		return new ResponseEntity<List<ApiResponse>>(add,HttpStatus.CREATED);
+	}
+	
+	
+	@GetMapping("/reversegeocode")
+	public ResponseEntity<List<ApiResponse>> getReverseGeocode(
+			String lat,
+			String lng,
+			String region,
+			String lang
+			) {
+		List<ApiResponse> reverseGeoCodeAPI = this.generateTokenService.getReverseGeoCodeAPI(lat,lng,region,lang);
+		return new ResponseEntity<List<ApiResponse>>(reverseGeoCodeAPI,HttpStatus.CREATED);
+	}
+	
+	
+//	@RequestMapping("/mapimage",method)
+	@GetMapping(value = "/mapimage", consumes = MediaType.ALL_VALUE, produces = MediaType.IMAGE_PNG_VALUE)
+	public ResponseEntity<byte[]> getMapImage(
+			String value
+			) {
+		System.out.println("hit the endpoints...........................");
+		byte[] mapImage = this.generateTokenService.getMapImage(value);
+		/*
+		 * HttpHeaders headers = new HttpHeaders(); headers.add("Content-Type",
+		 * "image/png");
+		 */
+		return new ResponseEntity<byte[]>(mapImage,HttpStatus.OK);
 	}
 	
 	

@@ -1,5 +1,6 @@
 package com.cwc.mapmyindia.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,8 +16,14 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class AddressResponse {
+public class ApiResponse {
 	@JsonProperty("copResults")
-	private List<AddressRequest> addressRequest;
+	private List<ApiRequest> apiRequest;
 
+	@JsonProperty
+	private int responseCode;
+	@JsonProperty
+	private String version;
+	@JsonProperty("results")
+    public ArrayList<ApiRequest> results;
 }
